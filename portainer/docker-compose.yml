@@ -1,0 +1,37 @@
+version: "3.0"
+
+services:
+    portainer:
+        image: portainer/portainer
+        container_name: portainer
+        restart: always
+        labels: 
+          - traefik.enable=true
+          - traefik.http.routers.portainer.rule=Host(`your-domain`)
+          - traefik.http.routers.portainer.entrypoints=:443
+          - traefik.http.routers.portainer.tls=true
+          - traefik.http.routers.portainer.tls.certresolver=myresolver
+        volumes:
+          - /var/run/docker.sock:/var/run/docker.sock
+          - portainer_data:/data
+        expose:
+          - 9000 
+        networks:
+          - traefik
+        deploy:
+            placement:
+                constraints:
+                    - node.labels.master == true
+            resources:
+                limits:
+                    memory: 200m
+
+volumes: 
+    portainer_data:
+        external:
+            name: portainer_data
+
+networks: 
+    traefik:
+        external: 
+            name: traefik
