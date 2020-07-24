@@ -1,0 +1,37 @@
+# Use root/example as user/password credentials
+version: '3.1'
+
+services:
+  mysql:
+    image: mysql
+    restart: always
+    networks: 
+      - apache
+    volumes:
+      - "~/docker/mysql:/var/lib/mysql"
+    environment:
+      MYSQL_ROOT_PASSWORD: 'example'
+    # connect mysql: set the host to mysql:3306
+
+  adminer:
+    image: adminer
+    restart: always
+    networks: 
+      - apache
+    ports:
+      - 8081:8080
+
+  server:
+    image: php:apache
+    restart: always
+    networks: 
+      - apache
+    volumes: 
+      - "~/apache:/var/www/html"
+    ports:
+      - 8080:80
+
+networks: 
+  apache: 
+    external:
+      name: apache

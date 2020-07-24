@@ -1,0 +1,1 @@
+docker run --name apache -d -p 8080:80 -v /home/screenleon/apache/:/var/www/html php:apache
