@@ -18,13 +18,6 @@ services:
           - 9000 
         networks:
           - traefik
-        deploy:
-            placement:
-                constraints:
-                    - node.labels.master == true
-            resources:
-                limits:
-                    memory: 200m
 
 volumes: 
     portainer_data:
