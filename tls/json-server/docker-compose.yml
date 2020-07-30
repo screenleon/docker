@@ -1,0 +1,22 @@
+version: "3.0"
+
+services:
+    jsonserver:
+        image: jsonserver
+        container_name: jsonserver
+        labels:
+          - traefik.enable=true
+          - traefik.http.routers.jsonserver.rule=Host(`your domain`)
+          - traefik.http.routers.jsonserver.entrypoints=web
+          - traefik.http.routers.jsonserver.entrypoints=websecure
+          - traefik.http.routers.jsonserver.tls=true
+          - traefik.http.routers.jsonserver.tls.certresolver=myresolver
+        expose:
+          - 443
+        networks:
+          - traefik
+
+networks:
+    traefik:
+        external:
+            name: traefik
