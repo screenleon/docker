@@ -1,0 +1,39 @@
+version: "3.3"
+services:
+  mysql:
+    image: mysql:8
+    volumes:
+      - mysql_data
+    ports:
+      - 3306:3306
+    networks:
+      - default
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: php
+
+  # adminer:
+  #   image: adminer
+  #   restart: always
+  #   networks: 
+  #     - default
+  #   ports:
+  #     - 8081:8080
+  #   # connect to db using mysql:3306
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:5.0.2
+    networks:
+      - default
+    ports:
+      - "8080:80"
+    environment:
+      PMA_HOST: mysql
+    depends_on:
+      - mysql
+
+volumes:
+  mysql_data:
+    external:
+      name: mysql_data
+  
